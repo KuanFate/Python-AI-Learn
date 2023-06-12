@@ -29,6 +29,7 @@ def parse_record(row):
                 result.append(0)
     return result
 
+
 # data cleansing
 df = df.apply(lambda row: pd.Series(parse_record(row), index=names), axis=1)
 df['y'] = df['y'].astype(np.int32)
@@ -43,8 +44,8 @@ y = df[names[-1]]
 print(y.shape)
 print(y.value_counts())
 
-x_train, x_test, y_train, y_test = train_test_split(x,y,train_size=0.8,random_state=1)
-print("训练数据x的格式：{}，以及类型：{}".format(x_train.shape,type(x_train)))
+x_train, x_test, y_train, y_test = train_test_split(x, y, train_size=0.8, random_state=1)
+print("训练数据x的格式：{}，以及类型：{}".format(x_train.shape, type(x_train)))
 
 # 特征工程 feature engineering
 # pass
@@ -53,12 +54,17 @@ print("训练数据x的格式：{}，以及类型：{}".format(x_train.shape,typ
 knn = KNeighborsClassifier(n_neighbors=10, weights='distance', algorithm='kd_tree')
 
 # train model
-knn.fit(x_train,y_train)
+knn.fit(x_train, y_train)
 
 # evaluate model
 train_predict = knn.predict(x_train)
 test_predict = knn.predict(x_test)
 print("knn 测试集准确率: {}".format(knn.score(x_test, y_test)))
-print("knn 训练集准确率: {}".format(knn.score(x_train,y_train)))
+print("knn 训练集准确率: {}".format(knn.score(x_train, y_train)))
 
 print(accuracy_score(y_true=y_train, y_pred=train_predict))
+
+# save model
+import joblib
+
+joblib.dump(knn, "./knn.m")
