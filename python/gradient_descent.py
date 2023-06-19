@@ -25,7 +25,7 @@ while f_change > 1e-10 and iter_num < 50:  # condition of stopping iteration
     iter_num += 1
     x = x - alpha * h1(x)
     tmp = f1(x)
-    f_change = np.abs(f_current - tmp)
+    f_change = np.abs(f_current - tmp) # The derivative approaches 0
     f_current = tmp
     GD_X.append(x)
     GD_Y.append(f_current)
